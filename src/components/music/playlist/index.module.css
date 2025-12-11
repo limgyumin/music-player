@@ -1,0 +1,153 @@
+.container {
+  --item-height: 76px;
+  --item-block-spacing: 8px;
+
+  position: fixed;
+  top: 50%;
+  right: 20px;
+
+  width: 420px;
+  height: var(--item-height);
+
+  display: flex;
+  align-items: center;
+
+  transform: translateY(-50%);
+}
+
+.musics {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 100%;
+  height: 100vh;
+
+  overflow-y: auto;
+
+  padding-block: calc(50vh - min(var(--item-height), 100%) * 0.5);
+  padding-inline: 40px;
+
+  scroll-snap-type: y mandatory;
+}
+
+.music {
+  cursor: pointer;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding-block: var(--item-block-spacing);
+  padding-inline: 10px 12px;
+
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  text-align: left;
+
+  scroll-snap-align: center;
+  transition: transform 0.3s ease;
+}
+
+.music:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.music[data-focused="true"] {
+  transform: scale(1.15);
+}
+
+.music[data-active="true"] {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.music:hover .music__thumbnail-overlay,
+.music:focus .music__thumbnail-overlay,
+.music:focus-within .music__thumbnail-overlay {
+  display: flex;
+}
+
+.music__thumbnail-overlay {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.375);
+}
+
+.music__thumbnail-playback-button {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  background-color: transparent;
+}
+
+.music__thumbnail-icon {
+  font-size: 24px;
+  color: #fff;
+  transition: transform 0.15s ease;
+}
+
+.music__thumbnail-icon:hover {
+  transform: scale(1.1);
+}
+
+.music__thumbnail-wrapper {
+  position: relative;
+
+  width: calc(var(--item-height) - var(--item-block-spacing) * 2);
+  height: calc(var(--item-height) - var(--item-block-spacing) * 2);
+
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.music__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.music__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.music__title {
+  font-size: 18px;
+  font-weight: 600;
+
+  display: -webkit-box;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow-wrap: break-word;
+
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.music__artist {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+}
