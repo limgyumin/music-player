@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/music-player/static/css/main.00df3173.css",
+    "main.js": "/music-player/static/js/main.ff806dc2.js",
+    "static/media/Pretendard-SemiBold.woff2": "/music-player/static/media/Pretendard-SemiBold.d5ded8ad2884e7855bb1.woff2",
+    "static/media/Pretendard-Medium.woff2": "/music-player/static/media/Pretendard-Medium.a9645bebe1a0010e66dc.woff2",
+    "static/media/Pretendard-Regular.woff2": "/music-player/static/media/Pretendard-Regular.38bed7de46e7b9049ced.woff2",
+    "index.html": "/music-player/index.html",
+    "main.00df3173.css.map": "/music-player/static/css/main.00df3173.css.map",
+    "main.ff806dc2.js.map": "/music-player/static/js/main.ff806dc2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.00df3173.css",
+    "static/js/main.ff806dc2.js"
+  ]
+}
