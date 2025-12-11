@@ -24,3 +24,5 @@ yarn-error.log*
 
 /public/musics
 /src/assets/data
+
+.env
