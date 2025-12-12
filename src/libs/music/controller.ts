@@ -32,14 +32,10 @@ export class Controller {
     }
   };
 
-  public playAutomatically = (): (() => void) => {
-    const onEnded = () => {
-      this.next();
-    };
+  public resume = (): (() => void) => {
+    this.audio.element.addEventListener("ended", this.next);
 
-    this.audio.element.addEventListener("ended", onEnded);
-
-    return () => this.audio.element.removeEventListener("ended", onEnded);
+    return () => this.audio.element.removeEventListener("ended", this.next);
   };
 
   private play = async (music: Music): Promise<void> => {

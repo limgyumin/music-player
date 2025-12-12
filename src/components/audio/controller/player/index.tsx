@@ -17,7 +17,7 @@ export const Player = () => {
   const isPlaying = useIsPlaying(audio);
 
   useEffect(() => {
-    return controller.playAutomatically();
+    return controller.resume();
   }, [controller]);
 
   return (
