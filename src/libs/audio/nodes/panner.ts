@@ -26,13 +26,13 @@ export class Panner implements Attachable {
       positionZ: this.initialZ,
       maxDistance: 10000,
       refDistance: 1,
-      rolloffFactor: 10,
+      rolloffFactor: 5,
       orientationX: 0,
       orientationY: 0,
       orientationZ: -1,
-      coneInnerAngle: 40,
-      coneOuterAngle: 50,
-      coneOuterGain: 0.5,
+      coneInnerAngle: 60,
+      coneOuterAngle: 90,
+      coneOuterGain: 0.75,
     });
   }
 

@@ -16,8 +16,8 @@ export const useVisualizer = (audio: Audio) => {
       const midAverage = average(frequency.slice(64, 128));
 
       return [
-        amplifyAsymmetric(lowAverage, 110, 1.6, 1.1),
-        amplifyAsymmetric(midAverage, 80, 1.5, 1.1),
+        amplifyAsymmetric(lowAverage, 120, 1.5, 1.1),
+        amplifyAsymmetric(midAverage, 90, 1.4, 1.1),
       ];
     };
 
