@@ -23,8 +23,8 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
   useEffect(() => {
     const [initialX, initialY] = audio.panner.position;
 
-    const panX = (x / initialX) * (audio.panner.maxDistance / 2);
-    const panY = (y / initialY) * (audio.panner.maxDistance / 2);
+    const panX = (x / initialX) * (audio.panner.maxDistance / 2) + initialX;
+    const panY = (y / initialY) * (audio.panner.maxDistance / 2) + initialY;
 
     audio.panner.pan = [panX, panY];
   }, [audio, x, y]);
