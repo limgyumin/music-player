@@ -36,7 +36,7 @@ export class Drag {
     this.isDraggingListeners.forEach((listener) => listener());
   }
 
-  private dragStart = (e: MouseEvent) => {
+  private dragStart = (e: MouseEvent): void => {
     if (this.target == null) {
       return;
     }
@@ -51,7 +51,7 @@ export class Drag {
     }
   };
 
-  private dragEnd = () => {
+  private dragEnd = (): void => {
     this.initialX = 0;
     this.initialY = 0;
 
@@ -60,7 +60,7 @@ export class Drag {
     this.position = [0, 0];
   };
 
-  private drag = (e: MouseEvent) => {
+  private drag = (e: MouseEvent): void => {
     if (!this.isDragging) {
       return;
     }
@@ -84,7 +84,10 @@ export class Drag {
     return () => this.isDraggingListeners.delete(callback);
   };
 
-  public connect = (container: HTMLElement, target: HTMLElement) => {
+  public connect = (
+    container: HTMLElement,
+    target: HTMLElement
+  ): (() => void) => {
     this.container = container;
     this.target = target;
 

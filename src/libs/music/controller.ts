@@ -6,10 +6,23 @@ export class Controller {
   private audio: Audio;
   private playlist: Playlist;
 
+  private _isRepeat = false;
+
+  private readonly isRepeatListeners: Set<() => void> = new Set();
+
   constructor(audio: Audio, playlist: Playlist) {
     this.audio = audio;
     this.playlist = playlist;
   }
+
+  public get isRepeat(): boolean {
+    return this._isRepeat;
+  }
+
+  public repeat = (): void => {
+    this._isRepeat = !this._isRepeat;
+    this.isRepeatListeners.forEach((listener) => listener());
+  };
 
   public previous = (): void => {
     this.play(this.playlist.previousMusic);
@@ -33,9 +46,24 @@ export class Controller {
   };
 
   public resume = (): (() => void) => {
-    this.audio.element.addEventListener("ended", this.next);
+    const onEnded = () => {
+      if (this._isRepeat) {
+        this.audio.element.currentTime = 0;
+        this.audio.player.play();
+      } else {
+        this.next();
+      }
+    };
 
-    return () => this.audio.element.removeEventListener("ended", this.next);
+    this.audio.element.addEventListener("ended", onEnded);
+
+    return () => this.audio.element.removeEventListener("ended", onEnded);
+  };
+
+  public subscribeIsRepeat = (callback: () => void): (() => void) => {
+    this.isRepeatListeners.add(callback);
+
+    return () => this.isRepeatListeners.delete(callback);
   };
 
   private play = async (music: Music): Promise<void> => {
