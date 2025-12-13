@@ -1,20 +1,24 @@
 export const amplifyAsymmetric = (
   value: number,
-  center: number,
+  threshold: number,
   upStrength = 1,
   downStrength = 1
 ): number => {
-  const diff = value - center;
+  const diff = value - threshold;
 
   if (diff > 0) {
-    return center + Math.pow(diff, upStrength);
+    return threshold + Math.pow(diff, upStrength);
   } else if (diff < 0) {
-    return center - Math.pow(Math.abs(diff), downStrength);
+    return threshold - Math.pow(Math.abs(diff), downStrength);
   } else {
-    return center;
+    return threshold;
   }
 };
 
-export const average = (value: Uint8Array): number => {
-  return value.reduce((acc, curr) => acc + curr, 0) / value.length;
+export const sum = (array: Uint8Array | Array<number>): number => {
+  return (array as any).reduce((prev: number, curr: number) => prev + curr, 0);
+};
+
+export const average = (array: Uint8Array | Array<number>): number => {
+  return sum(array) / (array as any).length;
 };

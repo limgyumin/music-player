@@ -8,25 +8,31 @@ import { Playlist } from "../components/music/playlist";
 import styles from "./index.module.css";
 import { MediaSource } from "../components/audio/media-source";
 import { ControllerProvider } from "../components/music/controller-provider";
+import { DragContainer, DragTarget } from "../components/ui/drag";
 
 export const IndexPage = () => {
   const [ref, setRef] = useState<HTMLAudioElement | null>(null);
 
   return (
     <PlaylistProvider musics={musics}>
-      <div className={styles.container}>
-        <MediaSource ref={setRef} />
+      <DragContainer>
+        <div className={styles.container}>
+          <MediaSource ref={setRef} />
 
-        {ref != null ? (
-          <AudioProvider element={ref}>
-            <ControllerProvider>
-              <Visualizer />
-              <Controller />
-              <Playlist />
-            </ControllerProvider>
-          </AudioProvider>
-        ) : null}
-      </div>
+          {ref != null ? (
+            <AudioProvider element={ref}>
+              <ControllerProvider>
+                <DragTarget>
+                  <Visualizer />
+                </DragTarget>
+
+                <Controller />
+                <Playlist />
+              </ControllerProvider>
+            </AudioProvider>
+          ) : null}
+        </div>
+      </DragContainer>
     </PlaylistProvider>
   );
 };

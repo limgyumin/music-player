@@ -7,6 +7,8 @@
 }
 
 .wrapper {
+  cursor: grab;
+
   position: relative;
 
   width: 100%;
@@ -15,6 +17,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: transform 0.15s ease;
+}
+
+.wrapper[data-dragging="true"] {
+  cursor: grabbing;
 }
 
 .low-frequency-visualizer {
@@ -35,7 +43,7 @@
   object-fit: cover;
 }
 
-.high-frequency-visualizer__wrapper {
+.mid-frequency-visualizer__wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,7 +51,7 @@
   transform: translate(-50%, -50%);
 }
 
-.high-frequency-visualizer {
+.mid-frequency-visualizer {
   width: 400px;
   height: 400px;
 

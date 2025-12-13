@@ -19,7 +19,7 @@ export const useScroll = (options: UseScrollOptions) => {
   useEffect(() => {
     const target = ref?.current ?? window;
 
-    const handleScroll = () => {
+    const onScroll = () => {
       const element = ref?.current ?? document.documentElement;
 
       const { scrollTop: top, scrollHeight, clientHeight } = element;
@@ -29,11 +29,11 @@ export const useScroll = (options: UseScrollOptions) => {
       callbackRef.current({ progressY: top / height });
     };
 
-    handleScroll();
+    onScroll();
 
-    target.addEventListener("scroll", handleScroll);
+    target.addEventListener("scroll", onScroll);
 
-    return () => target.removeEventListener("scroll", handleScroll);
+    return () => target.removeEventListener("scroll", onScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

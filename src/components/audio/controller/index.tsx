@@ -1,4 +1,4 @@
-import { useScroll } from "../../../hooks/document/use-scroll";
+import { useScroll } from "../../../hooks/dom/use-scroll";
 import { useMusic } from "../../../hooks/music/use-music";
 import { remap } from "../../../utils/remap";
 import { usePlaylist } from "../../music/playlist-provider/hooks";
@@ -16,7 +16,7 @@ export const Controller = () => {
 
   useScroll({
     callback: ({ progressY }) => {
-      const volume = Math.floor(remap(progressY, 0.15, 1) * 1000) / 1000;
+      const volume = Math.floor(remap(progressY, 0.5, 1.5) * 1000) / 1000;
 
       audio.gain.volume = volume;
     },

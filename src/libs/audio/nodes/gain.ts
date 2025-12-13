@@ -6,7 +6,7 @@ export class Gain implements Attachable {
   private readonly volumeListeners: Set<() => void> = new Set();
 
   constructor(context: AudioContext) {
-    this.node = new GainNode(context);
+    this.node = new GainNode(context, { gain: 0.5 });
   }
 
   public get volume(): number {

@@ -3,27 +3,18 @@ import { Attachable } from "./attachable";
 export class Analyser implements Attachable {
   private readonly node: AnalyserNode;
 
+  private frequency: Uint8Array;
+
   constructor(context: AudioContext) {
-    this.node = new AnalyserNode(context, { fftSize: 256 });
+    this.node = new AnalyserNode(context, { fftSize: 2048 });
+
+    this.frequency = new Uint8Array(this.node.frequencyBinCount);
   }
 
-  public analyze = (callback: (data: Uint8Array) => void): (() => void) => {
-    const bufferLength = this.node.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+  public analyzeFrequency = (): Uint8Array => {
+    this.node.getByteFrequencyData(this.frequency as any);
 
-    let rafId: number;
-
-    const retrieve = () => {
-      this.node.getByteFrequencyData(dataArray);
-
-      callback(dataArray);
-
-      rafId = requestAnimationFrame(retrieve);
-    };
-
-    retrieve();
-
-    return () => cancelAnimationFrame(rafId);
+    return this.frequency;
   };
 
   public attachTo = (node: AudioNode): AudioNode => {

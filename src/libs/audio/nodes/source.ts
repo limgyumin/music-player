@@ -52,7 +52,7 @@ export class Source {
 
   public connect = (...nodes: Attachable[]): (() => void) => {
     nodes
-      .reduce<AudioNode>((acc, node) => node.attachTo(acc), this.node)
+      .reduce<AudioNode>((prev, node) => node.attachTo(prev), this.node)
       .connect(this.context.destination);
 
     return () => this.node.disconnect();

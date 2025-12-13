@@ -6,7 +6,7 @@ import { Player } from "./player";
 import { Timeline } from "./timeline";
 
 export class Audio {
-  private readonly context: AudioContext;
+  private readonly _context: AudioContext;
   private readonly _element: HTMLAudioElement;
 
   private readonly _player: Player;
@@ -18,16 +18,20 @@ export class Audio {
   private readonly _analyser: Analyser;
 
   constructor(element: HTMLAudioElement) {
-    this.context = new AudioContext();
+    this._context = new AudioContext();
     this._element = element;
 
-    this._player = new Player(this.context, element);
+    this._player = new Player(this._context, element);
     this._timeline = new Timeline(element);
 
-    this._source = new Source(this.context, element);
-    this._gain = new Gain(this.context);
-    this._panner = new Panner(this.context);
-    this._analyser = new Analyser(this.context);
+    this._source = new Source(this._context, element);
+    this._gain = new Gain(this._context);
+    this._panner = new Panner(this._context);
+    this._analyser = new Analyser(this._context);
+  }
+
+  public get context(): AudioContext {
+    return this._context;
   }
 
   public get element(): HTMLAudioElement {

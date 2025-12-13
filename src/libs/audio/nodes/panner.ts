@@ -1,28 +1,55 @@
 import { Attachable } from "./attachable";
 
 export class Panner implements Attachable {
-  private readonly node: StereoPannerNode;
+  private readonly node: PannerNode;
 
-  private readonly panListeners: Set<() => void> = new Set();
+  private readonly initialX: number;
+  private readonly initialY: number;
+  private readonly initialZ: number;
 
   constructor(context: AudioContext) {
-    this.node = new StereoPannerNode(context);
+    const listener = context.listener;
+
+    this.initialX = window.innerWidth / 2;
+    this.initialY = window.innerHeight / 2;
+    this.initialZ = 300;
+
+    listener.positionX.value = this.initialX;
+    listener.positionY.value = this.initialY;
+    listener.positionZ.value = this.initialZ;
+
+    this.node = new PannerNode(context, {
+      panningModel: "HRTF",
+      distanceModel: "linear",
+      positionX: this.initialX,
+      positionY: this.initialY,
+      positionZ: this.initialZ,
+      maxDistance: 10000,
+      refDistance: 1,
+      rolloffFactor: 10,
+      orientationX: 0,
+      orientationY: 0,
+      orientationZ: -1,
+      coneInnerAngle: 40,
+      coneOuterAngle: 50,
+      coneOuterGain: 0.5,
+    });
   }
 
-  public get pan(): number {
-    return this.node.pan.value;
+  public get position(): [number, number, number] {
+    return [this.initialX, this.initialY, this.initialZ];
   }
 
-  public set pan(pan: number) {
-    this.node.pan.value = pan;
-    this.panListeners.forEach((listener) => listener());
+  public get maxDistance(): number {
+    return this.node.maxDistance;
   }
 
-  public subscribePan = (callback: () => void): (() => void) => {
-    this.panListeners.add(callback);
+  public set pan(position: [number, number]) {
+    const [x, y] = position;
 
-    return () => this.panListeners.delete(callback);
-  };
+    this.node.positionX.value = x;
+    this.node.positionY.value = y;
+  }
 
   public attachTo = (node: AudioNode): AudioNode => {
     return node.connect(this.node);

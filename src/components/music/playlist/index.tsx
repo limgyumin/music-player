@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useScroll } from "../../../hooks/document/use-scroll";
+import { useScroll } from "../../../hooks/dom/use-scroll";
 import styles from "./index.module.css";
 import { usePlaylist } from "../playlist-provider/hooks";
 import { useMusic } from "../../../hooks/music/use-music";
