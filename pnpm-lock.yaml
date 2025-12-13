@@ -8,18 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/node':
-        specifier: ^16.18.126
-        version: 16.18.126
-      '@types/react':
-        specifier: ^19.2.7
-        version: 19.2.7
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.7)
-      gh-pages:
-        specifier: ^6.3.0
-        version: 6.3.0
       react:
         specifier: ^19.2.1
         version: 19.2.1
@@ -32,6 +20,19 @@ importers:
       react-scripts:
         specifier: 5.0.1
         version: 5.0.1(@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.5))(@babel/plugin-transform-react-jsx@7.27.1(@babel/core@7.28.5))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@19.2.1)(type-fest@0.21.3)(typescript@4.9.5)
+    devDependencies:
+      '@types/node':
+        specifier: ^16.18.126
+        version: 16.18.126
+      '@types/react':
+        specifier: ^19.2.7
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.7)
+      gh-pages:
+        specifier: ^6.3.0
+        version: 6.3.0
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
