@@ -1,3 +1,7 @@
+const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent => {
+  return e.type.startsWith("touch");
+};
+
 export class Drag {
   private container: HTMLElement | null = null;
   private target: HTMLElement | null = null;
@@ -36,15 +40,22 @@ export class Drag {
     this.isDraggingListeners.forEach((listener) => listener());
   }
 
-  private dragStart = (e: MouseEvent): void => {
+  private dragStart = (e: MouseEvent | TouchEvent): void => {
     if (this.target == null) {
       return;
     }
 
-    const { clientX, clientY } = e;
+    if (isTouchEvent(e)) {
+      const { clientX, clientY } = e.touches[0];
 
-    this.initialX = clientX;
-    this.initialY = clientY;
+      this.initialX = clientX;
+      this.initialY = clientY;
+    } else {
+      const { clientX, clientY } = e;
+
+      this.initialX = clientX;
+      this.initialY = clientY;
+    }
 
     if (e.target === this.target || this.target.contains(e.target as Node)) {
       this.isDragging = true;
@@ -60,16 +71,22 @@ export class Drag {
     this.position = [0, 0];
   };
 
-  private drag = (e: MouseEvent): void => {
+  private drag = (e: MouseEvent | TouchEvent): void => {
     if (!this.isDragging) {
       return;
     }
 
     e.preventDefault();
 
-    const { clientX, clientY } = e;
+    if (isTouchEvent(e)) {
+      const { clientX, clientY } = e.touches[0];
 
-    this.position = [clientX - this.initialX, clientY - this.initialY];
+      this.position = [clientX - this.initialX, clientY - this.initialY];
+    } else {
+      const { clientX, clientY } = e;
+
+      this.position = [clientX - this.initialX, clientY - this.initialY];
+    }
   };
 
   public subscribePosition = (callback: () => void): (() => void) => {
@@ -95,10 +112,18 @@ export class Drag {
     this.container.addEventListener("mouseup", this.dragEnd);
     this.container.addEventListener("mousemove", this.drag);
 
+    this.container.addEventListener("touchstart", this.dragStart);
+    this.container.addEventListener("touchend", this.dragEnd);
+    this.container.addEventListener("touchmove", this.drag);
+
     return () => {
       this.container?.removeEventListener("mousedown", this.dragStart);
       this.container?.removeEventListener("mouseup", this.dragEnd);
       this.container?.removeEventListener("mousemove", this.drag);
+
+      this.container?.removeEventListener("touchstart", this.dragStart);
+      this.container?.removeEventListener("touchend", this.dragEnd);
+      this.container?.removeEventListener("touchmove", this.drag);
     };
   };
 }
