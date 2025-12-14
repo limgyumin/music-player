@@ -1,7 +1,16 @@
 .container {
   position: fixed;
-  bottom: 80px;
+  bottom: 5%;
   left: 50%;
+
+  @media screen and (max-width: 1080px) {
+    width: 100%;
+    bottom: 0;
+  }
+}
+
+.wrapper {
+  position: relative;
 
   width: 380px;
 
@@ -16,6 +25,19 @@
   border-radius: 10px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
+
+  @media screen and (max-width: 1080px) {
+    width: 100%;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 8px 12px;
+
+    box-shadow: none;
+    border-radius: 0;
+  }
 }
 
 .summary {
@@ -27,6 +49,12 @@
   gap: 4px;
 
   padding: 4px 0;
+
+  @media screen and (max-width: 1080px) {
+    width: auto;
+
+    align-items: flex-start;
+  }
 }
 
 .summary__title {

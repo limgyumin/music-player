@@ -16,21 +16,21 @@ export const Controller = () => {
 
   useScroll({
     callback: ({ progressY }) => {
-      const volume = Math.floor(remap(progressY, 0.5, 1.5) * 1000) / 1000;
-
-      audio.gain.volume = volume;
+      audio.gain.volume = remap(progressY, 0.5, 1.5);
     },
   });
 
   return (
     <div className={styles.container}>
-      <div className={styles.summary}>
-        <p className={styles.summary__title}>{currentMusic.title}</p>
-        <p className={styles.summary__artist}>{currentMusic.artist}</p>
-      </div>
+      <div className={styles.wrapper}>
+        <div className={styles.summary}>
+          <p className={styles.summary__title}>{currentMusic.title}</p>
+          <p className={styles.summary__artist}>{currentMusic.artist}</p>
+        </div>
 
-      <Timeline />
-      <Player />
+        <Timeline />
+        <Player />
+      </div>
     </div>
   );
 };
