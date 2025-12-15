@@ -7,5 +7,11 @@ export const MediaSource = forwardRef<HTMLAudioElement>((_, ref) => {
 
   const { currentMusic } = useMusic(playlist);
 
-  return <audio ref={ref} src={currentMusic.source} preload="auto" />;
+  return (
+    <audio
+      ref={ref}
+      src={`${process.env.PUBLIC_URL}${currentMusic.source}`}
+      preload="auto"
+    />
+  );
 });

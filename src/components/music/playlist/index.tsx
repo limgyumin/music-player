@@ -93,7 +93,7 @@ export const Playlist = () => {
 
             <div className={styles.music__summary}>
               <p className={styles.music__title}>{music.title}</p>
-              <p className={styles.music__artist}>{music.artist}</p>
+              <p className={styles.music__artist}>{music.artists.join(", ")}</p>
             </div>
           </li>
         ))}

@@ -1,33 +1,32 @@
 import { Attachable } from "./attachable";
 
-class SourceNode extends MediaElementAudioSourceNode {
-  private static instance: SourceNode;
+const CACHE = new WeakMap<any, any>();
 
-  public static getInstance(
-    context: AudioContext,
-    options: MediaElementAudioSourceOptions
-  ): SourceNode {
-    if (!SourceNode.instance) {
-      SourceNode.instance = new SourceNode(context, options);
-    }
+const cache = <K, V>(key: K, getter: () => V): V => {
+  const cached = CACHE.get(key);
 
-    return SourceNode.instance;
+  if (cached != null) {
+    return cached;
   }
-}
+
+  const value = getter();
+
+  CACHE.set(key, value);
+
+  return value;
+};
 
 export class Source {
   private readonly context: AudioContext;
   private readonly element: HTMLAudioElement;
 
-  private readonly node: SourceNode;
+  private readonly node: MediaElementAudioSourceNode;
 
   constructor(context: AudioContext, element: HTMLAudioElement) {
     this.element = element;
     this.context = context;
 
-    this.node = SourceNode.getInstance(context, {
-      mediaElement: element,
-    });
+    this.node = cache(element, () => context.createMediaElementSource(element));
   }
 
   public load = (): Promise<void> => {
@@ -37,11 +36,11 @@ export class Source {
         resolve();
       };
 
-      const onError = () => {
+      const onError = (e: ErrorEvent) => {
         this.element.removeEventListener("error", onError);
         this.element.removeEventListener("loadeddata", onLoad);
 
-        reject(new Error("Failed to load audio"));
+        reject(e.error);
       };
 
       this.element.addEventListener("loadeddata", onLoad);

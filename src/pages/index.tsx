@@ -1,38 +1,46 @@
-import { useState } from "react";
-import { AudioProvider } from "../components/audio/audio-provider";
-import { PlaylistProvider } from "../components/music/playlist-provider";
-import { Visualizer } from "../components/audio/visualizer";
-import { Controller } from "../components/audio/controller";
-import { musics } from "../assets/data/musics";
-import { Playlist } from "../components/music/playlist";
+import { Link, useLoaderData } from "react-router";
+import { Collection } from "../models/collection";
 import styles from "./index.module.css";
-import { MediaSource } from "../components/audio/media-source";
-import { ControllerProvider } from "../components/music/controller-provider";
-import { DragContainer, DragTarget } from "../components/ui/drag";
+import { FaPlay } from "react-icons/fa6";
 
 export const IndexPage = () => {
-  const [ref, setRef] = useState<HTMLAudioElement | null>(null);
+  const collections = useLoaderData<readonly Collection[]>();
 
   return (
-    <PlaylistProvider musics={musics}>
-      <DragContainer>
-        <div className={styles.container}>
-          <MediaSource ref={setRef} />
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <div className={styles.introduction}>
+          <h1 className={styles.introduction__title}>
+            Discover what
+            <br />
+            he listening to
+            <br />
+            while he focus.
+          </h1>
 
-          {ref != null ? (
-            <AudioProvider element={ref}>
-              <ControllerProvider>
-                <DragTarget>
-                  <Visualizer />
-                </DragTarget>
-
-                <Controller />
-                <Playlist />
-              </ControllerProvider>
-            </AudioProvider>
-          ) : null}
+          <p className={styles.introduction__description}>
+            Playlists by milimgyu.
+          </p>
         </div>
-      </DragContainer>
-    </PlaylistProvider>
+
+        <ul className={styles.collections}>
+          {collections.map((collection) => (
+            <li key={collection.id} className={styles.collection}>
+              <img
+                src={collection.thumbnail}
+                alt={collection.thumbnail}
+                className={styles.collection__thumbnail}
+              />
+
+              <Link to={`/collections/${collection.id}`}>
+                <button className={styles["collection__play-button"]}>
+                  <FaPlay />
+                </button>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };

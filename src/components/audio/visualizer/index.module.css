@@ -36,13 +36,12 @@
 
   background-color: #000;
   border-radius: 50%;
-  border: 6px solid #000;
-  box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
+  border: 4px solid #000;
+  box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.375);
 
   @media screen and (max-width: 1080px) {
     width: 220px;
     height: 220px;
-    border-width: 4px;
   }
 
   @media screen and (max-width: 768px) {
@@ -67,11 +66,13 @@
 }
 
 .mid-frequency-visualizer {
+  position: relative;
+
   width: 360px;
   height: 360px;
 
   border-radius: 50%;
-  border: 1px solid #00000015;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 
   @media screen and (max-width: 1080px) {
     width: 260px;
@@ -79,7 +80,18 @@
   }
 
   @media screen and (max-width: 768px) {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
   }
+}
+
+.mid-frequency-visualizer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  transform: scale(1.1);
 }

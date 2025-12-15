@@ -4,7 +4,7 @@ import { Playlist } from "../../../libs/music";
 import { Music } from "../../../models/music";
 
 type Props = PropsWithChildren<{
-  musics: Music[];
+  musics: readonly Music[];
 }>;
 
 export const PlaylistProvider = ({ children, musics }: Props) => {

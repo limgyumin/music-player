@@ -25,7 +25,9 @@ export const Controller = () => {
       <div className={styles.wrapper}>
         <div className={styles.summary}>
           <p className={styles.summary__title}>{currentMusic.title}</p>
-          <p className={styles.summary__artist}>{currentMusic.artist}</p>
+          <p className={styles.summary__artist}>
+            {currentMusic.artists.join(", ")}
+          </p>
         </div>
 
         <Timeline />

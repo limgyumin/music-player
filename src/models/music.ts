@@ -1,7 +1,7 @@
 export type Music = Readonly<{
-  id: number;
+  id: string;
   thumbnail: string;
   title: string;
-  artist: string;
+  artists: readonly string[];
   source: string;
 }>;

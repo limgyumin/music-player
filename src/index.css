@@ -33,6 +33,15 @@
   -ms-user-select: none;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

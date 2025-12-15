@@ -2,11 +2,11 @@ import { Music } from "../../models/music";
 
 export class Playlist {
   private _currentMusic: Music;
-  private readonly _musics: Music[];
+  private readonly _musics: readonly Music[];
 
   private readonly currentMusicListeners: Set<() => void> = new Set();
 
-  constructor(musics: Music[]) {
+  constructor(musics: readonly Music[]) {
     this._currentMusic = musics[0];
     this._musics = musics;
   }

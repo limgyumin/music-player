@@ -39,19 +39,14 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
         className={styles.wrapper}
         data-dragging={isDragging}
       >
-        {Array.from({ length: 3 }).map((_, index) => (
+        <div className={styles["mid-frequency-visualizer__wrapper"]}>
           <div
-            key={index}
-            className={styles["mid-frequency-visualizer__wrapper"]}
-          >
-            <div
-              className={styles["mid-frequency-visualizer"]}
-              style={{
-                transform: `scale(${mid + index / 10})`,
-              }}
-            />
-          </div>
-        ))}
+            className={styles["mid-frequency-visualizer"]}
+            style={{
+              transform: `scale(${mid})`,
+            }}
+          />
+        </div>
 
         <div
           className={styles["low-frequency-visualizer"]}
