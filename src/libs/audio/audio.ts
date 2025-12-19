@@ -7,7 +7,7 @@ import { Timeline } from "./timeline";
 
 export class Audio {
   private readonly _context: AudioContext;
-  private readonly _element: HTMLAudioElement;
+  private readonly element: HTMLAudioElement;
 
   private readonly _player: Player;
   private readonly _timeline: Timeline;
@@ -19,7 +19,7 @@ export class Audio {
 
   constructor(element: HTMLAudioElement) {
     this._context = new AudioContext();
-    this._element = element;
+    this.element = element;
 
     this._player = new Player(this._context, element);
     this._timeline = new Timeline(element);
@@ -32,10 +32,6 @@ export class Audio {
 
   public get context(): AudioContext {
     return this._context;
-  }
-
-  public get element(): HTMLAudioElement {
-    return this._element;
   }
 
   public get player(): Player {
@@ -61,6 +57,15 @@ export class Audio {
   public get analyser(): Analyser {
     return this._analyser;
   }
+
+  public on = <K extends keyof HTMLMediaElementEventMap>(
+    event: K,
+    listener: (this: HTMLMediaElement, ev: HTMLMediaElementEventMap[K]) => void
+  ): (() => void) => {
+    this.element.addEventListener(event, listener);
+
+    return () => this.element.removeEventListener(event, listener);
+  };
 
   public connect = (): (() => void) => {
     return this._source.connect(this._gain, this._panner, this._analyser);

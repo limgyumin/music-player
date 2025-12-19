@@ -48,16 +48,14 @@ export class Controller {
   public resume = (): (() => void) => {
     const onEnded = () => {
       if (this._isRepeat) {
-        this.audio.element.currentTime = 0;
+        this.audio.timeline.reset();
         this.audio.player.play();
       } else {
         this.next();
       }
     };
 
-    this.audio.element.addEventListener("ended", onEnded);
-
-    return () => this.audio.element.removeEventListener("ended", onEnded);
+    return this.audio.on("ended", onEnded);
   };
 
   public subscribeIsRepeat = (callback: () => void): (() => void) => {

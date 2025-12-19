@@ -23,6 +23,10 @@ export class Timeline {
     return this.element.duration || 0;
   }
 
+  public reset = () => {
+    this.element.currentTime = 0;
+  };
+
   public startJump = (): void => {
     this.isJumping = true;
   };
