@@ -27,9 +27,7 @@ const router = createBrowserRouter(
   ],
   {
     basename:
-      process.env.NODE_ENV === "development"
-        ? undefined
-        : process.env.PUBLIC_URL,
+      process.env.NODE_ENV === "development" ? undefined : "/music-player",
   }
 );
 
