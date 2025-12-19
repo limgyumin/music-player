@@ -3,41 +3,29 @@ import { Attachable } from "./attachable";
 export class Panner implements Attachable {
   private readonly node: PannerNode;
 
-  private readonly initialX: number;
-  private readonly initialY: number;
-  private readonly initialZ: number;
-
   constructor(context: AudioContext) {
     const listener = context.listener;
 
-    this.initialX = window.innerWidth / 2;
-    this.initialY = window.innerHeight / 2;
-    this.initialZ = 300;
-
-    listener.positionX.value = this.initialX;
-    listener.positionY.value = this.initialY;
-    listener.positionZ.value = this.initialZ;
+    listener.positionX.value = 0;
+    listener.positionY.value = 0;
+    listener.positionZ.value = 0;
 
     this.node = new PannerNode(context, {
       panningModel: "HRTF",
       distanceModel: "linear",
-      positionX: this.initialX,
-      positionY: this.initialY,
-      positionZ: this.initialZ,
+      positionX: 0,
+      positionY: 0,
+      positionZ: 1.5,
       maxDistance: 10000,
       refDistance: 1,
-      rolloffFactor: 5,
+      rolloffFactor: 1,
       orientationX: 0,
       orientationY: 0,
       orientationZ: -1,
-      coneInnerAngle: 60,
-      coneOuterAngle: 90,
-      coneOuterGain: 0.75,
+      coneInnerAngle: 360,
+      coneOuterAngle: 0,
+      coneOuterGain: 0,
     });
-  }
-
-  public get position(): [number, number, number] {
-    return [this.initialX, this.initialY, this.initialZ];
   }
 
   public get maxDistance(): number {

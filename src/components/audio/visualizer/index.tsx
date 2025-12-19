@@ -21,12 +21,7 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
   const isDragging = useIsDragging(drag);
 
   useEffect(() => {
-    const [initialX, initialY] = audio.panner.position;
-
-    const panX = (x / initialX) * (audio.panner.maxDistance / 2) + initialX;
-    const panY = (y / initialY) * (audio.panner.maxDistance / 2) + initialY;
-
-    audio.panner.pan = [panX, panY];
+    audio.panner.pan = [x / 200, -y / 200];
   }, [audio, x, y]);
 
   return (
