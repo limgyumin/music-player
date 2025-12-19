@@ -4,12 +4,12 @@ import { PlaylistProvider } from "../../../components/music/playlist-provider";
 import { Visualizer } from "../../../components/audio/visualizer";
 import { Controller } from "../../../components/audio/controller";
 import { Playlist } from "../../../components/music/playlist";
-import styles from "./index.module.css";
 import { MediaSource } from "../../../components/audio/media-source";
 import { ControllerProvider } from "../../../components/music/controller-provider";
 import { DragContainer, DragTarget } from "../../../components/ui/drag";
 import { useLoaderData } from "react-router";
 import { Collection } from "../../../models/collection";
+import { Background } from "../../../components/music/background";
 
 export const CollectionPage = () => {
   const [ref, setRef] = useState<HTMLAudioElement | null>(null);
@@ -19,7 +19,7 @@ export const CollectionPage = () => {
   return (
     <PlaylistProvider musics={collection.musics}>
       <DragContainer>
-        <div className={styles.container}>
+        <Background>
           <MediaSource ref={setRef} />
 
           {ref != null ? (
@@ -34,7 +34,7 @@ export const CollectionPage = () => {
               </ControllerProvider>
             </AudioProvider>
           ) : null}
-        </div>
+        </Background>
       </DragContainer>
     </PlaylistProvider>
   );

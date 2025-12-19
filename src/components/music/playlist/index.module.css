@@ -54,6 +54,7 @@
   padding-block: var(--item-block-spacing);
   padding-inline: 10px 12px;
 
+  background-color: var(--interaction-normal);
   border-radius: 8px;
   backdrop-filter: blur(10px);
   text-align: left;
@@ -63,15 +64,16 @@
 }
 
 .music:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--interaction-hover);
 }
 
 .music[data-focused="true"] {
   transform: scale(1.15);
+  margin-block: 4px;
 }
 
 .music[data-active="true"] {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: var(--interaction-active);
 }
 
 .music:hover .music__thumbnail-overlay,
@@ -124,7 +126,7 @@
 
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-xs);
 }
 
 .music__thumbnail {
@@ -143,6 +145,7 @@
 .music__title {
   font-size: 18px;
   font-weight: 600;
+  color: var(--foreground-primary);
 
   display: -webkit-box;
 
@@ -163,5 +166,5 @@
 .music__artist {
   font-size: 14px;
   font-weight: 400;
-  color: #666;
+  color: var(--foreground-secondary);
 }

@@ -29,5 +29,5 @@
 .time span {
   font-size: 12px;
   font-weight: 400;
-  color: #666;
+  color: var(--foreground-secondary);
 }

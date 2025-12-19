@@ -16,14 +16,14 @@
   border-radius: 50%;
 
   background-color: transparent;
-  color: #000;
+  color: var(--foreground-primary);
   font-size: 16px;
 
   transition: background-color 0.15s ease;
 }
 
 .toggle[data-active="true"] {
-  color: #000;
+  color: var(--foreground-primary);
 }
 
 .toggle[data-active="true"]::after {
@@ -38,14 +38,14 @@
   width: 3px;
   height: 3px;
 
-  background-color: #000;
+  background-color: var(--foreground-primary);
   border-radius: 50%;
 }
 
 .toggle[data-active="false"] {
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--foreground-secondary);
 }
 
 .icon-button:hover {
-  background-color: rgba(210, 210, 210, 0.4);
+  background-color: var(--foreground-alternative);
 }
