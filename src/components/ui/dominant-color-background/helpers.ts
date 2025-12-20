@@ -15,7 +15,7 @@ export const loadImage = (source: string): Promise<HTMLImageElement> => {
   });
 };
 
-export const quantize = (value: number, factor = 32) => {
+export const quantize = (value: number, factor: number): number => {
   return Math.round(value / factor) * factor;
 };
 
@@ -24,7 +24,7 @@ export const getDominantColor = async (options: {
   sample?: number;
   factor?: number;
 }): Promise<string | undefined> => {
-  const { source, sample = 10, factor = 32 } = options;
+  const { source, sample = 10, factor = 24 } = options;
 
   const image = await loadImage(source);
 
