@@ -9,22 +9,22 @@ export const useVisualizer = (audio: Audio) => {
   useEffect(() => {
     let rafId: number;
 
-    const determineMovingFrequency = (
-      frequency: Uint8Array
-    ): [number, number] => {
-      const lowAverage = average(frequency.slice(0, 64));
-      const midAverage = average(frequency.slice(64, 128));
-
-      return [
-        amplifyAsymmetric(lowAverage, 120, 1.5, 1.1),
-        amplifyAsymmetric(midAverage, 90, 1.4, 1.1),
-      ];
-    };
-
     const tick = () => {
       const frequency = audio.analyser.analyzeFrequency();
 
-      const [low, mid] = determineMovingFrequency(frequency);
+      const low = amplifyAsymmetric(
+        average(frequency.slice(0, 64)),
+        120,
+        1.4,
+        1.1
+      );
+
+      const mid = amplifyAsymmetric(
+        average(frequency.slice(64, 128)),
+        90,
+        1.4,
+        1.1
+      );
 
       setLow(1 + low / 1000);
       setMid(1 + mid / 1000);
