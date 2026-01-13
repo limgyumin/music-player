@@ -1,6 +1,6 @@
 import { useScroll } from "../../../hooks/dom/use-scroll";
 import { useMusic } from "../../../hooks/music/use-music";
-import { remap } from "../../../utils/remap";
+import { remap } from "../../../utils/number";
 import { usePlaylist } from "../../music/playlist-provider/hooks";
 import { useAudio } from "../audio-provider/hooks";
 import styles from "./index.module.css";
