@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/music-player/static/css/main.a7002067.css",
-    "main.js": "/music-player/static/js/main.5893b7da.js",
+    "main.css": "/music-player/static/css/main.bb63eebb.css",
+    "main.js": "/music-player/static/js/main.886f552a.js",
     "static/media/Pretendard-SemiBold.woff2": "/music-player/static/media/Pretendard-SemiBold.d5ded8ad2884e7855bb1.woff2",
     "static/media/Pretendard-Medium.woff2": "/music-player/static/media/Pretendard-Medium.a9645bebe1a0010e66dc.woff2",
     "static/media/Pretendard-Regular.woff2": "/music-player/static/media/Pretendard-Regular.38bed7de46e7b9049ced.woff2",
     "index.html": "/music-player/index.html",
-    "main.a7002067.css.map": "/music-player/static/css/main.a7002067.css.map",
-    "main.5893b7da.js.map": "/music-player/static/js/main.5893b7da.js.map"
+    "main.bb63eebb.css.map": "/music-player/static/css/main.bb63eebb.css.map",
+    "main.886f552a.js.map": "/music-player/static/js/main.886f552a.js.map"
   },
   "entrypoints": [
-    "static/css/main.a7002067.css",
-    "static/js/main.5893b7da.js"
+    "static/css/main.bb63eebb.css",
+    "static/js/main.886f552a.js"
   ]
 }
