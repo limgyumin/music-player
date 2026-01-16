@@ -2,6 +2,6 @@ import { Music } from "./music";
 
 export type Collection = Readonly<{
   id: string;
-  thumbnail: string;
+  title: string;
   musics: readonly Music[];
 }>;
