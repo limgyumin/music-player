@@ -10,11 +10,14 @@ import { DragContainer, DragTarget } from "../../../components/ui/drag";
 import { useLoaderData } from "react-router";
 import { Collection } from "../../../models/collection";
 import { Background } from "../../../components/music/background";
+import { useFullscreen } from "../../../hooks/dom/use-fullscreen";
 
 export const CollectionPage = () => {
   const [ref, setRef] = useState<HTMLAudioElement | null>(null);
 
   const collection = useLoaderData<Collection>();
+
+  useFullscreen();
 
   return (
     <PlaylistProvider musics={collection.musics}>
