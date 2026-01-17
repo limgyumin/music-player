@@ -45,6 +45,12 @@ export class Controller {
     }
   };
 
+  public subscribeIsRepeat = (callback: () => void): (() => void) => {
+    this.isRepeatListeners.add(callback);
+
+    return () => this.isRepeatListeners.delete(callback);
+  };
+
   public resume = (): (() => void) => {
     const onEnded = () => {
       if (this._isRepeat) {
@@ -58,27 +64,35 @@ export class Controller {
     return this.audio.on("ended", onEnded);
   };
 
-  public subscribeIsRepeat = (callback: () => void): (() => void) => {
-    this.isRepeatListeners.add(callback);
-
-    return () => this.isRepeatListeners.delete(callback);
+  public register = (): (() => void) => {
+    return this.audio.session.setActionHandlers({
+      play: () => this.playback(),
+      pause: () => this.playback(),
+      nexttrack: () => this.next(),
+      previoustrack: () => this.previous(),
+    });
   };
 
   private play = async (music: Music): Promise<void> => {
+    this.audio.session.metadata = {
+      title: music.title,
+      artist: music.artists.join(", "),
+      album: music.collection,
+      artwork: [{ src: music.thumbnail }],
+    };
+
     if (
       this.playlist.currentMusic.id === music.id &&
       !this.audio.player.isPlaying
     ) {
-      this.audio.player.play();
-      return;
+      return this.audio.player.play();
     }
 
     this.playlist.currentMusic = music;
 
     try {
       await this.audio.source.load();
-
-      this.audio.player.play();
+      await this.audio.player.play();
     } catch (error) {
       // TODO: error handling
       console.error(error);

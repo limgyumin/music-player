@@ -10,14 +10,24 @@ import { DragContainer, DragTarget } from "../../../components/ui/drag";
 import { useLoaderData } from "react-router";
 import { Collection } from "../../../models/collection";
 import { Background } from "../../../components/music/background";
-import { useFullscreen } from "../../../hooks/dom/use-fullscreen";
+import { useWindowEvent } from "../../../hooks/dom/use-window-event";
 
 export const CollectionPage = () => {
   const [ref, setRef] = useState<HTMLAudioElement | null>(null);
 
   const collection = useLoaderData<Collection>();
 
-  useFullscreen();
+  useWindowEvent("keydown", (e) => {
+    if (e.code !== "KeyF") {
+      return;
+    }
+
+    if (document.fullscreenElement == null) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  });
 
   return (
     <PlaylistProvider musics={collection.musics}>

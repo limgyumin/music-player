@@ -11,6 +11,7 @@ import { useIsPlaying } from "../../../../hooks/audio";
 import { useAudio } from "../../audio-provider/hooks";
 import { useController } from "../../../music/controller-provider/hooks";
 import { useIsRepeat } from "../../../../hooks/music/use-is-repeat";
+import { useWindowEvent } from "../../../../hooks/dom/use-window-event";
 
 export const Player = () => {
   const audio = useAudio();
@@ -20,8 +21,19 @@ export const Player = () => {
   const isRepeat = useIsRepeat(controller);
 
   useEffect(() => {
+    return controller.register();
+  }, [controller]);
+
+  useEffect(() => {
     return controller.resume();
   }, [controller]);
+
+  useWindowEvent("keydown", (e) => {
+    if (e.code === "Space") {
+      e.preventDefault();
+      controller.playback();
+    }
+  });
 
   return (
     <div className={styles.container}>

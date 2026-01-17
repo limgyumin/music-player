@@ -4,11 +4,13 @@ import { Gain } from "./nodes/gain";
 import { Panner } from "./nodes/panner";
 import { Player } from "./player";
 import { Timeline } from "./timeline";
+import { Session } from "./session";
 
 export class Audio {
   private readonly _context: AudioContext;
   private readonly element: HTMLAudioElement;
 
+  private readonly _session: Session;
   private readonly _player: Player;
   private readonly _timeline: Timeline;
 
@@ -21,7 +23,8 @@ export class Audio {
     this._context = new AudioContext();
     this.element = element;
 
-    this._player = new Player(this._context, element);
+    this._session = new Session();
+    this._player = new Player(this._context, this._session, element);
     this._timeline = new Timeline(element);
 
     this._source = new Source(this._context, element);
@@ -32,6 +35,10 @@ export class Audio {
 
   public get context(): AudioContext {
     return this._context;
+  }
+
+  public get session(): Session {
+    return this._session;
   }
 
   public get player(): Player {

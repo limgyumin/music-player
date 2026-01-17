@@ -1,11 +1,19 @@
+import { Session } from "./session";
+
 export class Player {
   private readonly context: AudioContext;
+  private readonly session: Session;
   private readonly element: HTMLAudioElement;
 
   private _isPlaying = false;
 
-  constructor(context: AudioContext, element: HTMLAudioElement) {
+  constructor(
+    context: AudioContext,
+    session: Session,
+    element: HTMLAudioElement
+  ) {
     this.context = context;
+    this.session = session;
     this.element = element;
   }
 
@@ -13,12 +21,12 @@ export class Player {
     return this._isPlaying;
   }
 
-  public play = (): void => {
+  public play = (): Promise<void> => {
     if (this.context.state === "suspended") {
       this.context.resume();
     }
 
-    this.element.play();
+    return this.element.play();
   };
 
   public pause = (): void => {
@@ -31,18 +39,24 @@ export class Player {
       callback();
     };
 
-    const onEnded = () => setIsPlaying(false);
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
+    const onPlay = () => {
+      setIsPlaying(true);
+      this.session.playbackState = "playing";
+    };
+
+    const onPause = () => {
+      setIsPlaying(false);
+      this.session.playbackState = "paused";
+    };
 
     this.element.addEventListener("play", onPlay);
     this.element.addEventListener("pause", onPause);
-    this.element.addEventListener("ended", onEnded);
+    this.element.addEventListener("ended", onPause);
 
     return () => {
-      this.element.removeEventListener("ended", onEnded);
       this.element.removeEventListener("play", onPlay);
       this.element.removeEventListener("pause", onPause);
+      this.element.removeEventListener("ended", onPause);
     };
   };
 }
