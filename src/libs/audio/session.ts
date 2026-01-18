@@ -9,9 +9,13 @@ export class Session {
     }
   }
 
-  public set metadata(init: MediaMetadataInit) {
+  public get metadata(): MediaMetadata | null {
+    return this.session?.metadata ?? null;
+  }
+
+  public set metadata(metadata: MediaMetadata | null) {
     if (this.session != null) {
-      this.session.metadata = new MediaMetadata(init);
+      this.session.metadata = metadata;
     }
   }
 

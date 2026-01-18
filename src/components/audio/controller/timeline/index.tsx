@@ -19,11 +19,11 @@ export const Timeline = () => {
   };
 
   const handleDragStart = () => {
-    audio.timeline.startJump();
+    audio.timeline.startSeek();
 
     // 간헐적으로 드래그가 slider 를 벗어나는 경우 mousedown 이벤트가 누락되므로 전체 document 대상으로 이벤트 추적
     const onDragEnd = () => {
-      audio.timeline.jumpTo(currentTimeRef.current);
+      audio.timeline.seekTo(currentTimeRef.current);
       document.removeEventListener("mouseup", onDragEnd);
       document.removeEventListener("touchend", onDragEnd);
     };

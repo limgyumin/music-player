@@ -70,16 +70,23 @@ export class Controller {
       pause: () => this.playback(),
       nexttrack: () => this.next(),
       previoustrack: () => this.previous(),
+      seekbackward: (e) => this.audio.timeline.seekBackward(e.seekOffset),
+      seekforward: (e) => this.audio.timeline.seekForward(e.seekOffset),
     });
   };
 
   private play = async (music: Music): Promise<void> => {
-    this.audio.session.metadata = {
-      title: music.title,
-      artist: music.artists.join(", "),
-      album: music.collection,
-      artwork: [{ src: music.thumbnail }],
-    };
+    if (
+      this.audio.session.metadata == null ||
+      this.playlist.currentMusic.id !== music.id
+    ) {
+      this.audio.session.metadata = new MediaMetadata({
+        title: music.title,
+        artist: music.artists.join(", "),
+        album: music.collection,
+        artwork: [{ src: music.thumbnail }],
+      });
+    }
 
     if (
       this.playlist.currentMusic.id === music.id &&

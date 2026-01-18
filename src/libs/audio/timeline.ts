@@ -2,7 +2,7 @@ export class Timeline {
   private readonly element: HTMLAudioElement;
 
   private _time = 0;
-  private isJumping = false;
+  private isSeeking = false;
 
   private readonly timeListeners: Set<() => void> = new Set();
 
@@ -27,13 +27,26 @@ export class Timeline {
     this.element.currentTime = 0;
   };
 
-  public startJump = (): void => {
-    this.isJumping = true;
+  public startSeek = (): void => {
+    this.isSeeking = true;
   };
 
-  public jumpTo = (time: number): void => {
+  public seekTo = (time: number): void => {
     this.element.currentTime = time;
-    this.isJumping = false;
+    this.isSeeking = false;
+  };
+
+  public seekForward = (offset = 10): void => {
+    this.element.currentTime = Math.min(
+      this.element.currentTime + offset,
+      this.element.duration
+    );
+    this.isSeeking = false;
+  };
+
+  public seekBackward = (offset = 10): void => {
+    this.element.currentTime = Math.max(this.element.currentTime - offset, 0);
+    this.isSeeking = false;
   };
 
   public subscribeDuration = (callback: () => void): (() => void) => {
@@ -44,7 +57,7 @@ export class Timeline {
 
   public subscribeTime = (callback: () => void): (() => void) => {
     const onUpdate = () => {
-      if (this.isJumping) {
+      if (this.isSeeking) {
         return;
       }
 
