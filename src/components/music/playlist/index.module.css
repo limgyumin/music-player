@@ -121,6 +121,7 @@
 .music__thumbnail-wrapper {
   position: relative;
 
+  min-width: fit-content;
   width: calc(var(--item-height) - var(--item-block-spacing) * 2);
   height: calc(var(--item-height) - var(--item-block-spacing) * 2);
 
