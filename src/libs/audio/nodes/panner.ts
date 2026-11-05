@@ -1,9 +1,17 @@
 import { Attachable } from "./attachable";
 
+const DISTANCE = 1.5;
+
+const SMOOTHING = 0.08;
+
 export class Panner implements Attachable {
+  private readonly context: AudioContext;
+
   private readonly node: PannerNode;
 
   constructor(context: AudioContext) {
+    this.context = context;
+
     const listener = context.listener;
 
     listener.positionX.value = 0;
@@ -12,12 +20,12 @@ export class Panner implements Attachable {
 
     this.node = new PannerNode(context, {
       panningModel: "HRTF",
-      distanceModel: "linear",
+      distanceModel: "inverse",
       positionX: 0,
       positionY: 0,
-      positionZ: 1.5,
+      positionZ: -DISTANCE,
       maxDistance: 10000,
-      refDistance: 1,
+      refDistance: DISTANCE,
       rolloffFactor: 1,
       orientationX: 0,
       orientationY: 0,
@@ -35,8 +43,10 @@ export class Panner implements Attachable {
   public set pan(position: [number, number]) {
     const [x, y] = position;
 
-    this.node.positionX.value = x;
-    this.node.positionY.value = y;
+    const now = this.context.currentTime;
+
+    this.node.positionX.setTargetAtTime(x, now, SMOOTHING);
+    this.node.positionY.setTargetAtTime(y, now, SMOOTHING);
   }
 
   public attachTo = (node: AudioNode): AudioNode => {
