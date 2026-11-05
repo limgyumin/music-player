@@ -11,6 +11,7 @@ import { useLoaderData } from "react-router";
 import { Collection } from "../../../models/collection";
 import { Background } from "../../../components/music/background";
 import { useWindowEvent } from "../../../hooks/dom/use-window-event";
+import { SmoothDragTransition } from "../../../libs/dom";
 
 export const CollectionPage = () => {
   const [ref, setRef] = useState<HTMLAudioElement | null>(null);
@@ -31,7 +32,11 @@ export const CollectionPage = () => {
 
   return (
     <PlaylistProvider musics={collection.musics}>
-      <DragContainer>
+      <DragContainer
+        options={{
+          transition: new SmoothDragTransition({ speed: 0.2 }),
+        }}
+      >
         <Background>
           <MediaSource ref={setRef} />
 

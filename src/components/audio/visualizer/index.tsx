@@ -3,9 +3,8 @@ import { useAudio } from "../audio-provider/hooks";
 import { useVisualizer } from "./hooks";
 import { usePlaylist } from "../../music/playlist-provider/hooks";
 import { useMusic } from "../../../hooks/music/use-music";
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useDrag } from "../../ui/drag/hooks";
-import { useDragPosition } from "../../../hooks/dom/use-drag-position";
 import { useIsDragging } from "../../../hooks/dom/use-is-dragging";
 import { clamp } from "../../../utils/number";
 
@@ -20,38 +19,41 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
 
   const { lowRef, midRef } = useVisualizer(audio);
 
-  const [x, y] = useDragPosition(drag);
   const isDragging = useIsDragging(drag);
 
-  useEffect(() => {
-    audio.panner.pan = [x / 200, -y / 200];
-  }, [audio, x, y]);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useImperativeHandle(ref, () => wrapperRef.current as HTMLDivElement, []);
 
   useEffect(() => {
-    audio.filter.sweep = clamp(-y / FILTER_SWEEP_DISTANCE, -1, 1);
-  }, [audio, y]);
+    const update = () => {
+      const [x, y] = drag.position;
+
+      if (wrapperRef.current != null) {
+        wrapperRef.current.style.transform = `translate(${x}px, ${y}px)`;
+      }
+
+      audio.panner.pan = [x / 200, -y / 200];
+      audio.filter.sweep = clamp(-y / FILTER_SWEEP_DISTANCE, -1, 1);
+    };
+
+    update();
+
+    return drag.subscribePosition(update);
+  }, [audio, drag]);
 
   return (
     <div className={styles.container}>
       <div
-        ref={ref}
-        style={{
-          transform: `translate(${x}px, ${y}px)`,
-        }}
+        ref={wrapperRef}
         className={styles.wrapper}
         data-dragging={isDragging}
       >
         <div className={styles["mid-frequency-visualizer__wrapper"]}>
-          <div
-            ref={midRef}
-            className={styles["mid-frequency-visualizer"]}
-          />
+          <div ref={midRef} className={styles["mid-frequency-visualizer"]} />
         </div>
 
-        <div
-          ref={lowRef}
-          className={styles["low-frequency-visualizer"]}
-        >
+        <div ref={lowRef} className={styles["low-frequency-visualizer"]}>
           <img
             src={currentMusic.thumbnail}
             alt={currentMusic.title}

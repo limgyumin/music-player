@@ -1,8 +1,16 @@
+import { DragPosition, DragTransition } from "./drag-transition";
+
 const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent => {
   return e.type.startsWith("touch");
 };
 
+export type DragOptions = {
+  transition?: DragTransition;
+};
+
 export class Drag {
+  private readonly transition: DragTransition | undefined;
+
   private container: HTMLElement | null = null;
   private target: HTMLElement | null = null;
 
@@ -18,11 +26,15 @@ export class Drag {
 
   private readonly isDraggingListeners: Set<() => void> = new Set();
 
-  get position(): [number, number] {
+  constructor({ transition }: DragOptions = {}) {
+    this.transition = transition;
+  }
+
+  get position(): DragPosition {
     return [this.currentX, this.currentY];
   }
 
-  private set position(value: [number, number]) {
+  private set position(value: DragPosition) {
     const [x, y] = value;
 
     this.currentX = x;
@@ -68,6 +80,7 @@ export class Drag {
 
     this.isDragging = false;
 
+    this.transition?.cancelTransition();
     this.position = [0, 0];
   };
 
@@ -81,12 +94,25 @@ export class Drag {
     if (isTouchEvent(e)) {
       const { clientX, clientY } = e.touches[0];
 
-      this.position = [clientX - this.initialX, clientY - this.initialY];
+      this.moveTo([clientX - this.initialX, clientY - this.initialY]);
     } else {
       const { clientX, clientY } = e;
 
-      this.position = [clientX - this.initialX, clientY - this.initialY];
+      this.moveTo([clientX - this.initialX, clientY - this.initialY]);
     }
+  };
+
+  private moveTo = (to: DragPosition): void => {
+    if (this.transition == null) {
+      this.position = to;
+      return;
+    }
+
+    this.transition.startTransition(this.position, to, this.updatePosition);
+  };
+
+  private updatePosition = (position: DragPosition): void => {
+    this.position = position;
   };
 
   public subscribePosition = (callback: () => void): (() => void) => {
@@ -103,7 +129,7 @@ export class Drag {
 
   public connect = (
     container: HTMLElement,
-    target: HTMLElement
+    target: HTMLElement,
   ): (() => void) => {
     this.container = container;
     this.target = target;
@@ -117,6 +143,8 @@ export class Drag {
     this.container.addEventListener("touchmove", this.drag);
 
     return () => {
+      this.transition?.cancelTransition();
+
       this.container?.removeEventListener("mousedown", this.dragStart);
       this.container?.removeEventListener("mouseup", this.dragEnd);
       this.container?.removeEventListener("mousemove", this.drag);

@@ -12,13 +12,16 @@ import {
 } from "react";
 import { DragContext } from "./contexts";
 import { useDragContext } from "./hooks";
-import { Drag } from "../../../libs/dom";
+import { Drag, DragOptions } from "../../../libs/dom";
 
-export const DragContainer = ({ children }: PropsWithChildren) => {
+export const DragContainer = ({
+  children,
+  options,
+}: PropsWithChildren<{ options: DragOptions }>) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [target, setTarget] = useState<HTMLElement | null>(null);
 
-  const drag = useMemo(() => new Drag(), []);
+  const drag = useMemo(() => new Drag({ transition: options.transition }), []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -57,7 +60,7 @@ export const DragTarget = ({ children }: PropsWithChildren) => {
           child as ReactElement<{ ref: Ref<HTMLElement | null> }>,
           {
             ref: setTarget,
-          }
+          },
         );
       })}
     </>
