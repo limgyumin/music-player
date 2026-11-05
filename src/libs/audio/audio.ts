@@ -1,6 +1,7 @@
 import { Analyser } from "./nodes/analyser";
 import { Source } from "./nodes/source";
 import { Gain } from "./nodes/gain";
+import { Filter } from "./nodes/filter";
 import { Panner } from "./nodes/panner";
 import { Player } from "./player";
 import { Timeline } from "./timeline";
@@ -16,6 +17,7 @@ export class Audio {
 
   private readonly _source: Source;
   private readonly _gain: Gain;
+  private readonly _filter: Filter;
   private readonly _panner: Panner;
   private readonly _analyser: Analyser;
 
@@ -29,6 +31,7 @@ export class Audio {
 
     this._source = new Source(this._context, element);
     this._gain = new Gain(this._context);
+    this._filter = new Filter(this._context);
     this._panner = new Panner(this._context);
     this._analyser = new Analyser(this._context);
   }
@@ -57,6 +60,10 @@ export class Audio {
     return this._gain;
   }
 
+  public get filter(): Filter {
+    return this._filter;
+  }
+
   public get panner(): Panner {
     return this._panner;
   }
@@ -75,6 +82,11 @@ export class Audio {
   };
 
   public connect = (): (() => void) => {
-    return this._source.connect(this._gain, this._panner, this._analyser);
+    return this._source.connect(
+      this._gain,
+      this._filter,
+      this._panner,
+      this._analyser
+    );
   };
 }

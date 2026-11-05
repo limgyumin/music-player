@@ -7,6 +7,9 @@ import { forwardRef, useEffect } from "react";
 import { useDrag } from "../../ui/drag/hooks";
 import { useDragPosition } from "../../../hooks/dom/use-drag-position";
 import { useIsDragging } from "../../../hooks/dom/use-is-dragging";
+import { clamp } from "../../../utils/number";
+
+const FILTER_SWEEP_DISTANCE = 240;
 
 export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
   const audio = useAudio();
@@ -23,6 +26,10 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
   useEffect(() => {
     audio.panner.pan = [x / 200, -y / 200];
   }, [audio, x, y]);
+
+  useEffect(() => {
+    audio.filter.sweep = clamp(-y / FILTER_SWEEP_DISTANCE, -1, 1);
+  }, [audio, y]);
 
   return (
     <div className={styles.container}>
