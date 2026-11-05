@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Audio } from "../../../libs/audio";
 import { amplifyAsymmetric, average } from "./helpers";
 
+// 매 프레임 React state 를 바꾸면 컴포넌트 전체가 리렌더되므로, DOM 의 style 을 직접 바꾼다.
 export const useVisualizer = (audio: Audio) => {
-  const [low, setLow] = useState(1);
-  const [mid, setMid] = useState(1);
+  const lowRef = useRef<HTMLDivElement>(null);
+  const midRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let rafId: number;
@@ -26,8 +27,13 @@ export const useVisualizer = (audio: Audio) => {
         1.1
       );
 
-      setLow(1 + low / 1000);
-      setMid(1 + mid / 1000);
+      if (lowRef.current != null) {
+        lowRef.current.style.transform = `scale(${1 + low / 1000})`;
+      }
+
+      if (midRef.current != null) {
+        midRef.current.style.transform = `scale(${1 + mid / 1000})`;
+      }
 
       rafId = requestAnimationFrame(tick);
     };
@@ -37,5 +43,5 @@ export const useVisualizer = (audio: Audio) => {
     return () => cancelAnimationFrame(rafId);
   }, [audio]);
 
-  return { low, mid };
+  return { lowRef, midRef };
 };

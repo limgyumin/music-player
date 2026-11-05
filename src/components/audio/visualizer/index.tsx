@@ -18,7 +18,7 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
 
   const { currentMusic } = useMusic(playlist);
 
-  const { low, mid } = useVisualizer(audio);
+  const { lowRef, midRef } = useVisualizer(audio);
 
   const [x, y] = useDragPosition(drag);
   const isDragging = useIsDragging(drag);
@@ -43,18 +43,14 @@ export const Visualizer = forwardRef<HTMLDivElement>((_, ref) => {
       >
         <div className={styles["mid-frequency-visualizer__wrapper"]}>
           <div
+            ref={midRef}
             className={styles["mid-frequency-visualizer"]}
-            style={{
-              transform: `scale(${mid})`,
-            }}
           />
         </div>
 
         <div
+          ref={lowRef}
           className={styles["low-frequency-visualizer"]}
-          style={{
-            transform: `scale(${low})`,
-          }}
         >
           <img
             src={currentMusic.thumbnail}
